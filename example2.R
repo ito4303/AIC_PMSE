@@ -6,7 +6,7 @@ library(parallel)
 options(cl.cores = 8)
 
 R <- 100000
-N <- 50
+N <- 100
 
 set.seed(123)
 
@@ -46,16 +46,36 @@ sum(results[, "AICc1"] > results[, "AICc2"]) / R
 # BIC
 sum(results[, "BIC1"] > results[, "BIC2"]) / R
 
-# Coefficients
-m1_x1 <- results[, "coef1.x1"]
-hist(m1_x1)
+# Coefficients in the "best" model by AIC
+# in case model1 is selected
+m1_x1 <- results[results[, "AIC1"] < results[, "AIC2"],
+                 "coef1.x1"]
+hist(m1_x1, main = "In case model1 is selected",
+     xlab = "Coefficient of x1")
 summary(m1_x1)
 
-m2_x1 <- results[, "coef2.x1"]
-hist(m2_x1)
+# in case model2 is selected
+m2_x1 <- results[results[, "AIC1"] > results[, "AIC2"],
+                 "coef2.x1"]
+hist(m2_x1, main = "In case model2 is selected",
+     xlab = "Coefficient of x1")
 summary(m2_x1)
 
-m2_x2 <- results[, "coef2.x2"]
-hist(m2_x2)
+m2_x2 <- results[results[, "AIC1"] > results[, "AIC2"],
+                 "coef2.x2"]
+hist(m2_x2, main = "In case model2 is selected",
+     xlab = "Coefficient of x2")
 summary(m2_x2)
+
+# unconditioned coefficient distribution
+uc_x1 <- results[, "coef2.x1"]
+hist(uc_x1, main = "Unconditioned distribution in model 2",
+     xlab = "Coefficient of x1")
+summary(uc_x1)
+
+uc_x2 <- results[, "coef2.x2"]
+hist(uc_x2, main = "Unconditioned distribution in model 2",
+     xlab = "Coefficient of x2")
+summary(uc_x2)
+
 
