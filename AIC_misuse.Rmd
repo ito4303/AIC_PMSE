@@ -1,0 +1,20 @@
+---
+title: "どんな場合でもAICを使えばよいというものではない"
+author: "伊東宏樹"
+date: "2022-06-07"
+utput:
+   revealjs::revealjs_presentation:
+    self_contatined: false
+    theme: black
+    transition: slide
+    css: style.css
+    reveal_options:
+      slideNumber: true
+      previewLinks: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+##
