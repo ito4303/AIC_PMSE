@@ -1,0 +1,26 @@
+h1.title {
+  font-weight: bold;
+  font-family: "Noto Sans JP"; "Noto Sans CJK JP"; sans-serif;
+}
+
+h2 {
+  font-weight: bold;
+  font-family: "Noto Sans JP"; "Noto Sans CJK JP"; sans-serif;
+}
+
+.reveal .slide {
+  font-family: "Noto Sans JP"; "Noto Sans CJK JP"; sans-serif;
+}
+
+sup {
+  font-size: 70% !important;
+}
+
+.reveal section img {
+  margin: auto;
+  border: none;
+  width: auto;
+  height: auto;
+  max-height: 560px;
+}
+
