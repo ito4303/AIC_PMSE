@@ -77,5 +77,3 @@ uc_x2 <- results[, "coef2.x2"]
 hist(uc_x2, main = "Unconditioned distribution in model 2",
      xlab = "Coefficient of x2")
 summary(uc_x2)
-
-

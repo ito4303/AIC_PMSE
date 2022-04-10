@@ -1,15 +1,25 @@
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+  text-transform: none;
+  font-family: "BIZ UDPGothic", "Noto Sans JP"; "Noto Sans CJK JP"; sans-serif;
+}
+
+
 h1.title {
   font-weight: bold;
-  font-family: "Noto Sans JP"; "Noto Sans CJK JP"; sans-serif;
 }
+
 
 h2 {
   font-weight: bold;
-  font-family: "Noto Sans JP"; "Noto Sans CJK JP"; sans-serif;
 }
 
 .reveal .slide {
-  font-family: "Noto Sans JP"; "Noto Sans CJK JP"; sans-serif;
+  font-family: "BIZ UDPGothic", "Noto Sans JP"; "Noto Sans CJK JP"; sans-serif;
 }
 
 sup {
