@@ -83,6 +83,7 @@ options(cl.cores = 8)
 (竹内ほか 2022)
 </div>
 
+
 ## モデル選択後の推定(量)
 
 <div style="text-align: left;">
@@ -93,9 +94,6 @@ options(cl.cores = 8)
 </div>
 
 # 実例1 {#example1}
-
-<!-- based on Kuchibhotla et al. (2022) -->
-<!-- 10.1146/annurev-statistics-100421-044639 -->
 
 ```{r}
 # Number of replications
@@ -128,6 +126,10 @@ data <- lapply(1:R, function(i) {
   data.frame(x1 = x[, 1], x2 = x[, 2], x3 = x[, 3], y = y)
 })
 ```
+
+<div style="text-align: left; margin-top: 2em; font-size: 80%;">
+※この例は、Kuchibhotla et al. (2022) を参考にしました。
+</div>
 
 ## モデル {#ex1_model}
 
@@ -220,7 +222,7 @@ summary(factor(min_bic))
 
 ```{r ex2_settings}
 R <- 100000
-N <- 100
+N <- 50
 
 set.seed(123)
 var1 <- 1
@@ -231,6 +233,7 @@ sd1 <- 4
 ```
 
 <div style="text-align: left;">
+- サンプルサイズ: `r N`
 - 説明変数: $x_1, x_2$
 - 目的変数: $y$
 
@@ -245,6 +248,10 @@ $$
 $$
 y \sim N(x_1 + 0.3 x_2, 4^2)
 $$
+<div style="text-align: left; margin-top: 2em; font-size: 80%;">
+※この例は、大久保 (2022) を参考にしました。
+</div>
+
 
 ```{r ex2_data, cache=TRUE}
 data <- lapply(1:R, function(i) {
@@ -388,6 +395,7 @@ summary(uc_x2)
 - 粕谷英一 (2015) 生態学におけるAICの誤用: AICは正しいモデルを選ぶためのものではないので正しいモデルを選ばない. [doi:10.18960/seitai.65.2_179](https://doi.org/10.18960/seitai.65.2_179)
 - 久保拓弥 (2012) データ解析のための統計モデリング入門&mdash;一般化線形モデル・階層ベイズモデル・MCMC. 岩波書店
 - Kuchibhotla et al. (2022) Post-Selection Inference. [doi:10.1146/annurev-statistics-100421-044639](https://doi.org/10.1146/annurev-statistics-100421-044639)
+- 大久保祐作 (2022) "生態学と因果推論1" https://github.com/OhkuboYusaku/blog/tree/main/causal 
 - 竹下ほか (2022) 哺乳類研究における非実験データセットに対する回帰分析の適用について. [doi:10.11238/mammalianscience.62.69](https://doi.org/10.11238/mammalianscience.62.69)
 - Zhang et al. (2022) Post-model-selection inference in linear regression models: An integrated review. [doi:10.1214/22-SS135](https://doi.org/10.1214/22-SS135)
 </div>
