@@ -24,6 +24,10 @@ sup {
   font-size: 70% !important;
 }
 
+sub {
+  font-size: 70% !important;
+}
+
 .reveal section img {
   margin: auto;
   border: none;
