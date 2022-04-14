@@ -1,5 +1,5 @@
 ---
-title: "何にでもAICを使えばよいというものではない"
+title: "いつでもAICを使えばよいというものではない"
 author: "伊東宏樹"
 date: "2022-06-07"
 output:
@@ -87,6 +87,8 @@ options(cl.cores = 8)
 ## モデル選択後の推定(量)
 
 <div style="text-align: left;">
+分布がゆがむ場合がある。
+
 - Post-model-selection inference
 - Post-model-selection estimator
 
