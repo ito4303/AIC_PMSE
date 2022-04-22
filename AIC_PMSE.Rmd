@@ -59,7 +59,7 @@ options(cl.cores = 8)
 <div style="text-align: left;">
 - 有意検定: 多くの場合、係数が0であるかないかを検定
 - モデル選択ではずれた説明変数は、係数=0としていることと同義
-    - あらためて係数=0か検定する意義とは?
+    - 残った変数で、あらためて係数=0か検定する意義とは?
 </div>
 
 ## 回帰分析の目的
@@ -135,7 +135,7 @@ data <- lapply(1:R, function(i) {
 
 ## モデル {#ex1_model}
 
-1. `y ~ 1`
+1. `y ~ 1       ←「正しい」モデル`
 2. `y ~ x1`
 3. `y ~ x2`
 4. `y ~ x3`
@@ -145,8 +145,8 @@ data <- lapply(1:R, function(i) {
 8. `y ~ x1 + x2 + x3`
 
 <div style="text-align: left;">
-10^`r log10(R)` 回くりかえし<br />
-選択されたモデルの頻度分布を求める。
+- AICによるモデル選択を 10^`r log10(R)` 回くりかえし<br />
+- 選択されたモデルの頻度分布を求める。
 </div>
 
 ```{r ex1_model, cache=TRUE}
@@ -272,11 +272,11 @@ pairs(data[[1]])
 ## モデル {#ex2_model}
 
 1. `y ~ x1`
-2. `y ~ x1 + x2`
+2. `y ~ x1 + x2   ←「正しい」モデル`
 
 <div style="text-align: left;">
-10^`r log10(R)` 回くりかえし<br />
-選択されたモデルの頻度分布を求める。
+- AICによるモデル選択を 10^`r log10(R)` 回くりかえし<br />
+- 選択されたモデルの頻度分布を求める。
 </div>
 
 ```{r ex2_model, cache=TRUE}
@@ -402,15 +402,22 @@ summary(uc_x2)
 - Zhang et al. (2022) Post-model-selection inference in linear regression models: An integrated review. [doi:10.1214/22-SS135](https://doi.org/10.1214/22-SS135)
 </div>
 
-## コード
+## ファイルなど
 
 <div style="text-align: left;">
-今回の例題のRコード（と、スライド作成のコード）は
+今回のスライドは
 
-[https://github.com/ito4303/AIC_PMSE](https://github.com/ito4303/AIC_PMSE)
+https://ito4303.github.io/AIC_PMSE.html
+
+にあります。
+</div>
+
+<div style="margin-top: 1em; text-align: left;">
+例題のRコード（と、スライド作成のコード）は
+
+https://github.com/ito4303/AIC_PMSE
 
 においてあります。
-
 </div>
 
 
