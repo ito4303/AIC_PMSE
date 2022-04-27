@@ -5,7 +5,7 @@
 .reveal h5,
 .reveal h6 {
   text-transform: none;
-  font-family: "BIZ UDPGothic", "Noto Sans JP", "Noto Sans CJK JP", "Hiragino Kaku Gothic ProN", "Hiragino Sans",  sans-serif;
+  font-family: "BIZ UDPGothic", "Noto Sans JP", "Noto Sans CJK JP", "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif;
 }
 
 h1.title {
@@ -34,5 +34,10 @@ sub {
   width: auto;
   height: auto;
   max-height: 560px;
+}
+
+.reveal pre {
+  font-size: 1em !important;
+  box-shadow: 0px 0px 6px rgba(255, 255, 255, 0.3) !important;
 }
 
