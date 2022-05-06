@@ -42,7 +42,4 @@ vignettes/*.pdf
 *.html
 *_files/
 
-# renv directory
-renv/
-
 
