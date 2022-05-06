@@ -1,4 +1,5 @@
-# Kuchibhotla et al. (2022)
+# cf. Kuchibhotla et al. (2022)
+# 10.1146/annurev-statistics-100421-044639
 
 library(MASS)
 library(AICcmodavg)
@@ -35,7 +36,7 @@ rlist <- clusterMap(cl, function(d) {
   m[[5]] <- glm(y ~ x1 + x2, data = d)
   m[[6]] <- glm(y ~ x1 + x3, data = d)
   m[[7]] <- glm(y ~ x2 + x3, data = d)
-  m[[8]] <- glm(y ~ x1 + x2+ x3, data = d)
+  m[[8]] <- glm(y ~ x1 + x2 + x3, data = d)
   
   aic <- sapply(1:8, function(i) AIC(m[[i]]))
   aicc <- sapply(1:8, function(i) AICcmodavg::AICc(m[[i]]))
@@ -45,27 +46,25 @@ rlist <- clusterMap(cl, function(d) {
 }, data)
 stopCluster(cl)
 
-vars <- names(rlist[[1]])
-results <- t(matrix(unlist(rlist), nrow = length(vars)))
-colnames(results) <- vars
-
-# smallest AIC model
+# smallest-AIC model
 min_aic <- sapply(1:R, function(i) which.min(rlist[[i]]$AIC))
 summary(factor(min_aic))
 
-# smallest AIC models which contain x1
+# coefficient of x1 in the smallest-AIC models which contain x1
 coef_x1 <- sapply(1:R, function(i) {
   ifelse(min_aic[i] %in% c(2, 5, 6, 8),
          rlist[[i]]$coef[[min_aic[i]]]["x1"],
          as.numeric(NA))
   })
-hist(coef_x1[!is.na(coef_x1)])
+coef_x1 <- coef_x1[!is.na(coef_x1)]
+hist(coef_x1, main = "In the \"best\" models which contain x1",
+     xlab = "Coefficient of x1")
 
-# smallest AICc model
+# smallest-AICc model
 min_aicc <- sapply(1:R, function(i) which.min(rlist[[i]]$AICc))
 summary(factor(min_aicc))
 
-# smallest AIC model
+# smallest-BIC model
 min_bic <- sapply(1:R, function(i) which.min(rlist[[i]]$BIC))
 summary(factor(min_bic))
 
