@@ -1,5 +1,5 @@
 # cf. Kuchibhotla et al. (2022)
-# 10.1146/annurev-statistics-100421-044639
+# https://doi.org/10.1146/annurev-statistics-100421-044639
 
 library(MASS)
 library(AICcmodavg)
