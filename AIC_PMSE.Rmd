@@ -87,12 +87,9 @@ options(cl.cores = 8)
 ## モデル選択後の推定(量)
 
 <div style="text-align: left;">
-分布がゆがむ場合がある。
-
-- Post-model-selection inference
-- Post-model-selection estimator
-
-現在も統計学者が議論している(Kuchibhotla et al. 2022, Zhang et al. 2022, etc.)
+- 分布がゆがむ場合がある(AICに限らず)
+- “Post-model-selection inference”や“Post-model-selection estimator”とよばれる
+- 現在も統計学者が議論している(Kuchibhotla et al. 2022, Zhang et al. 2022, etc.)
 </div>
 
 # 実例1 {#example1}
@@ -392,7 +389,7 @@ summary(uc_x2)
 
 # 参考文献 {#references}
 
-<div style="font-size: 75%; text-align: left;">
+<div style="font-size: 70%; text-align: left; line-height: 120%;">
 - 伊庭幸人 (2017) モデル選択超速習 AICからスパースまで. 岩波データサイエンス Vol.5 p.6–18
 - 粕谷英一 (2015) 生態学におけるAICの誤用: AICは正しいモデルを選ぶためのものではないので正しいモデルを選ばない. [doi:10.18960/seitai.65.2_179](https://doi.org/10.18960/seitai.65.2_179)
 - 久保拓弥 (2012) データ解析のための統計モデリング入門&mdash;一般化線形モデル・階層ベイズモデル・MCMC. 岩波書店
