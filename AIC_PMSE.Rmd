@@ -247,6 +247,7 @@ $$
 $$
 y \sim \mathcal{N}(x_1 + `r coef` x_2, `r sd1`^2)
 $$
+
 <div style="text-align: left; margin-top: 2em; font-size: 80%;">
 ※この例は、大久保 (2022) を参考にしました。
 </div>
@@ -265,6 +266,9 @@ data <- lapply(1:R, function(i) {
 ```{r ex2_view_data}
 pairs(data[[1]])
 ```
+
+理論的なVIF = `r 1 / (1 - cov^2 / (var1 * var2))`
+
 
 ## モデル {#ex2_model}
 
