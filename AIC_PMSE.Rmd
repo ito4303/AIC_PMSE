@@ -84,19 +84,22 @@ options(cl.cores = 8)
 </div>
 
 
-## モデル選択後の推定(量)
+## モデル選択後の検定・推定
 
 <div style="text-align: left;">
-- 分布がゆがむ場合がある(AICに限らず)
-- “Post-model-selection inference”や“Post-model-selection estimator”とよばれる
+- AICに限らず、選択されたモデルという条件付きでは
+    - 帰無仮説が棄却される確率が有意水準どおりにならない場合がある
+    - 推定値の分布がゆがむ場合がある
 - 現在も統計学者が議論している(Kuchibhotla et al. 2022, Zhang et al. 2022, etc.)
+    - Post-model-selection inference
+    - Post-model-selection estimator
 </div>
 
 # 実例1 {#example1}
 
-```{r}
+```{r example1}
 # Number of replications
-R <- 10000
+R <- 10^4
 
 # Sample size
 N <- 50
@@ -180,9 +183,9 @@ summary(factor(min_aic))
 
 ## x1の係数 {#ex1_coef_x1}
 
-x1を含むモデルが選択された場合について、x1の値の頻度分布を表示すると
+x1を含むモデルが選択された場合について、x1の係数の頻度分布を表示すると
 
-```{r}
+```{r ex1_coef_x1}
 # coefficient of x1 in the smallest-AIC models which contain x1
 coef_x1 <- sapply(1:R, function(i) {
   ifelse(min_aic[i] %in% c(2, 5, 6, 8),
@@ -220,7 +223,7 @@ BICは、候補に「正しい」モデル（データを生成したモデル�
 # 実例2 {#example2}
 
 ```{r ex2_settings}
-R <- 100000
+R <- 10^5
 N <- 50
 
 set.seed(123)
@@ -368,28 +371,59 @@ hist(m2_x2, main = "In case model2 is selected",
 #summary(m2_x2)
 ```
 
-<!--
-```{r}
-# unconditioned coefficient distribution
-uc_x1 <- results[, "coef2.x1"]
-hist(uc_x1, main = "Unconditioned distribution in model 2",
-     xlab = "Coefficient of x1")
-summary(uc_x1)
+# 実例3 {#example3}
+
+```{r ex3_settings, cache=TRUE}
+R <- 10^4
+N <- 100
+
+set.seed(123)
+
+data <- lapply(1:R, function(i) {
+  x <- matrix(rnorm(N * 10), ncol = 10, nrow = N)
+  y <- x[, 1] + x[, 2] + x[, 3] + rnorm(N, 0, 1)
+  list(x = x, y = y)
+})
+
+cl <- makeCluster(getOption("cl.cores", 2))
+rlist <- clusterMap(cl, function(d) {
+  # stepAIC
+  m <- MASS::stepAIC(lm(y ~ x[, 1] + x[, 2] + x[, 3] + x[, 4] + x[, 5] +
+                          x[, 6] + x[, 7] + x[, 8] + x[, 9] + x[, 10],
+                        data = d))
+  # check if x[, 4] is included in the selected model
+  if ("x[, 4]" %in% colnames(m$model)) {
+    pv_step <- summary(m)$coefficients["x[, 4]", "Pr(>|t|)"]
+  } else {
+    pv_step <- NA
+  }
+  pv_step
+}, data)
+stopCluster(cl)
+
+p_value <- unlist(rlist)
 ```
 
-```{r}
-uc_x2 <- results[, "coef2.x2"]
-hist(uc_x2, main = "Unconditioned distribution in model 2",
-     xlab = "Coefficient of x2")
-summary(uc_x2)
+- サンプルサイズ: `r N`
+- 説明変数: $x_1, x_2,..., x_{10} \sim \mathcal{N}(0, 1)$
+- 目的変数: $y \sim \mathcal{N}(x_1 + x_2 + x_3, 1)$
+- stepAIC関数でモデル選択
+- 10^`r log10(R)`回くりかえし
+- 選択されたモデルで、$x_4$が含まれたものについて、$x_4$の有意水準の頻度分布を求める
+
+## p値の頻度分布
+
+```{r ex3_result}
+hist(p_value, breaks = seq(0, 1, 0.025), xlim = c(0, 1))
+abline(v = 0.05, col = "red", lty = 2)
 ```
--->
+
 
 # まとめ {#summary}
 
-- AICは予測を最適化するもの。
-- モデル選択後に係数の検定をするのはアブない。
-- 説明・予測・介入（因果）のなにを問題としているのか意識するようにする。
+- AICは予測を最適化するもの
+- モデル選択後に係数の検定をするのはアブない
+- 説明・予測・介入（因果）のなにを問題としているのか意識するようにする
 
 # 参考文献 {#references}
 
