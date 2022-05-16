@@ -41,5 +41,6 @@ vignettes/*.pdf
 # Generated files
 *.html
 *_files/
-
+*.pdf
+*.Rout
 
