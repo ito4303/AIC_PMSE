@@ -41,3 +41,10 @@ sub {
   box-shadow: 0px 0px 6px rgba(255, 255, 255, 0.3) !important;
 }
 
+.reveal ul {
+  line-height: 150%;
+}
+
+.reveal ol {
+  line-height: 150%;
+}
