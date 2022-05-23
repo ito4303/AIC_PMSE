@@ -47,7 +47,7 @@ options(cl.cores = 8)
 「モデルの相対的な当てはまりの良さはAICにより比較した」という論文もあるが... <!-- 日林誌 vol.103 p.274-->
 </div>
 <div style="text-align: left;">
-- 「AICは統計モデルのあてはまりの良さ(goodness of fit)ではなく、予測の良さ(goodness of prediction)を重視するモデル選択基準です」(久保 2012)
+- 「AICは統計モデルのあてはまりの良さ (goodness of fit) ではなく、予測の良さ (goodness of prediction) を重視するモデル選択基準です」(久保 2012)
 - 「モデルの当てはまりと予測性能は違う」(伊庭 2017)
 </div>
 
@@ -270,7 +270,7 @@ data <- lapply(1:R, function(i) {
 pairs(data[[1]])
 ```
 
-理論的なVIF = `r 1 / (1 - cov^2 / (var1 * var2))`
+理論的な<abbr title="Variance Inflation Factor">VIF</abbr> = `r 1 / (1 - cov^2 / (var1 * var2))`
 
 
 ## モデル {#ex2_model}
@@ -303,7 +303,7 @@ colnames(results) <- vars
 
 ## AIC {#ex2_AIC}
 
-Model 2(「正しい」モデル)が選ばれた割合
+Model 2 (「正しい」モデル) が選ばれた割合
 
 ```{r ex2_AIC}
 # AIC
@@ -314,7 +314,7 @@ sum(results[, "AIC1"] > results[, "AIC2"]) / R
 
 ## AICc {#ex2_AICc}
 
-Model 2(「正しい」モデル)が選ばれた割合
+Model 2 (「正しい」モデル) が選ばれた割合
 
 ```{r ex2_AICc}
 # AICc
@@ -325,7 +325,7 @@ sum(results[, "AICc1"] > results[, "AICc2"]) / R
 
 ## BIC {#ex2_BIC}
 
-Model 2(「正しい」モデル)が選ばれた割合
+Model 2 (「正しい」モデル) が選ばれた割合
 
 ```{r ex2_BIC}
 # BIC
@@ -410,6 +410,7 @@ p_value <- unlist(rlist)
 - stepAIC関数でモデル選択
 - 10^`r log10(R)`回くりかえし
 - 選択されたモデルで、$x_4$が含まれたものについて、$x_4$の有意水準の頻度分布を求める
+    - 本来なら、0〜1の一様分布になるはず
 
 ## p値の頻度分布
 
