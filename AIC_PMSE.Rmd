@@ -22,7 +22,16 @@ library(parallel)
 options(cl.cores = 8)
 ```
 
-# そもそも
+# 生態学の統計解析で<br />よくみるパターン
+
+1. <abbr title="Akaike's Information Criterion">AIC</abbr>（赤池情報量基準）でモデル選択
+2. 「ベストモデル」で、係数の有意性検定
+
+# しかし
+
+<span style="font-size: 150%;">
+そもそも
+</span>
 
 <span style="font-size: 200%;">
 **「AICは正しいモデルを選ぶためのものではない」**
@@ -53,9 +62,6 @@ options(cl.cores = 8)
 
 # モデル選択後に検定? {#post-selection-test}
 
-<div style="text-align: left; padding: 1em;">
-モデル選択後に係数の有意性検定をしている例もわりと見かけるが...
-</div>
 <div style="text-align: left;">
 - 有意性検定: 多くのばあい、係数が0であるかないかを検定
 - モデル選択ではずれた説明変数は、係数=0としていることと同義
@@ -181,9 +187,9 @@ summary(factor(min_aic))
 
 「正しい」モデル(model1)が選ばれた割合はおよそ`r round(summary(factor(min_aic))[1] / R * 100, 0)`%
 
-## x1の係数 {#ex1_coef_x1}
+## x1の係数の頻度分布 {#ex1_coef_x1}
 
-x1を含むモデルが選択された場合について、x1の係数の頻度分布を表示すると
+x1を含むモデルが選択された場合では
 
 ```{r ex1_coef_x1}
 # coefficient of x1 in the smallest-AIC models which contain x1
@@ -410,7 +416,13 @@ p_value <- unlist(rlist)
 - stepAIC関数でモデル選択
 - 10^`r log10(R)`回くりかえし
 - 選択されたモデルで、$x_4$が含まれたものについて、$x_4$の有意水準の頻度分布を求める
-    - 本来なら、0〜1の一様分布になるはず
+    - 本来なら、有意水準5%で有意になる割合は5%のはず。
+
+<div style="text-align: left; margin-top: 2em; font-size: 80%;">
+※この例は、@saltcooky (2019)を参考にしました。
+</div>
+
+
 
 ## p値の頻度分布
 
@@ -428,12 +440,13 @@ abline(v = 0.05, col = "red", lty = 2)
 
 # 参考文献 {#references}
 
-<div style="font-size: 70%; text-align: left; line-height: 120%;">
+<div style="font-size: 65%; text-align: left; line-height: 110%;">
 - 伊庭幸人 (2017) モデル選択超速習 AICからスパースまで. 岩波データサイエンス Vol.5 p.6–18
 - 粕谷英一 (2015) 生態学におけるAICの誤用: AICは正しいモデルを選ぶためのものではないので正しいモデルを選ばない. [doi:10.18960/seitai.65.2_179](https://doi.org/10.18960/seitai.65.2_179)
 - 久保拓弥 (2012) データ解析のための統計モデリング入門&mdash;一般化線形モデル・階層ベイズモデル・MCMC. 岩波書店
 - Kuchibhotla et al. (2022) Post-Selection Inference. [doi:10.1146/annurev-statistics-100421-044639](https://doi.org/10.1146/annurev-statistics-100421-044639)
-- 大久保祐作 (2022) "生態学と因果推論1" https://github.com/OhkuboYusaku/blog/tree/main/causal 
+- 大久保祐作 (2022) "生態学と因果推論1" https://github.com/OhkuboYusaku/blog/tree/main/causal
+- @saltcooky (2019) 仮説検定における変数選択の影響を考えるSelective Inference入門 with R. https://qiita.com/saltcooky/items/9b25e7540b7f7d7bc61f
 - 竹下ほか (2022) 哺乳類研究における非実験データセットに対する回帰分析の適用について. [doi:10.11238/mammalianscience.62.69](https://doi.org/10.11238/mammalianscience.62.69)
 - Zhang et al. (2022) Post-model-selection inference in linear regression models: An integrated review. [doi:10.1214/22-SS135](https://doi.org/10.1214/22-SS135)
 </div>
