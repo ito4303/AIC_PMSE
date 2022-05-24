@@ -94,9 +94,9 @@ options(cl.cores = 8)
 
 <div style="text-align: left;">
 - AICに限らず、選択されたモデルという条件付きでは
-    - 帰無仮説が棄却される確率が有意水準どおりにならない場合がある
     - 推定値の分布がゆがむ場合がある
-- 現在も統計学者が議論している(Kuchibhotla et al. 2022, Zhang et al. 2022, etc.)
+    - 帰無仮説が棄却される確率が有意水準どおりにならない場合がある
+- 正しく推定できる手法は、現在も統計学者が議論している (Kuchibhotla et al. 2022, Zhang et al. 2022, etc.)
     - Post-model-selection inference
     - Post-model-selection estimator
 </div>
@@ -440,7 +440,7 @@ abline(v = 0.05, col = "red", lty = 2)
 
 # 参考文献 {#references}
 
-<div style="font-size: 65%; text-align: left; line-height: 110%;">
+<div style="font-size: 60%; text-align: left; line-height: 100%;">
 - 伊庭幸人 (2017) モデル選択超速習 AICからスパースまで. 岩波データサイエンス Vol.5 p.6–18
 - 粕谷英一 (2015) 生態学におけるAICの誤用: AICは正しいモデルを選ぶためのものではないので正しいモデルを選ばない. [doi:10.18960/seitai.65.2_179](https://doi.org/10.18960/seitai.65.2_179)
 - 久保拓弥 (2012) データ解析のための統計モデリング入門&mdash;一般化線形モデル・階層ベイズモデル・MCMC. 岩波書店
