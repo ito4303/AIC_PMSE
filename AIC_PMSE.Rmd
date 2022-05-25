@@ -66,7 +66,7 @@ options(cl.cores = 8)
 
 <div style="text-align: left;">
 - 有意性検定: 多くのばあい、係数が0であるかないかを検定
-- モデル選択ではずれた説明変数は、係数=0としていることと等価
+- モデル選択で はずれた説明変数は、係数=0としていることと等価
     - 残った変数で、あらためて係数=0か検定する意義とは?
 </div>
 
@@ -154,7 +154,7 @@ data <- lapply(1:R, function(i) {
 
 <div style="text-align: left;">
 - AICによるモデル選択を 10^`r log10(R)` 回くりかえし<br />
-- 選択されたモデルの頻度分布を求める。
+- 選択されたモデルの頻度分布を求める
 </div>
 
 ```{r ex1_model, cache=TRUE}
@@ -209,7 +209,7 @@ print(pr[5:8])
 
 ## x1の係数の頻度分布 {#ex1_coef_x1}
 
-x1を含むモデル（「正しくない」モデル）が選択された場合
+x1を含むモデルが選択されたばあい
 
 ```{r ex1_coef_x1}
 # coefficient of x1 in the smallest-AIC models which contain x1
@@ -223,7 +223,7 @@ hist(coef_x1, main = "In the \"best\" models which contain x1",
 
 ## x1の係数についてのp値の頻度分布 {#ex1_p-value_x1}
 
-x1を含むモデルが選択された場合
+x1を含むモデルが選択されたばあい
 
 ```{r ex1_p-value_x1}
 # p-value for x1 in the smallest-AIC models which contain x1
@@ -346,7 +346,7 @@ pairs(data[[1]])
 
 <div style="text-align: left;">
 - AICによるモデル選択を 10^`r log10(R)` 回くりかえし<br />
-- 選択されたモデルの頻度分布を求める。
+- 選択されたモデルの頻度分布を求める
 </div>
 
 ```{r ex2_model, cache=TRUE}
@@ -400,7 +400,7 @@ sum(results[, "BIC1"] > results[, "BIC2"]) / R
 
 およそ`r round(sum(results[, "BIC1"] > results[, "BIC2"]) / R * 100, 0)`%
 
-## AICでmodel1が選択された場合 {#ex2_mod1}
+## AICでmodel1が選択されたばあい {#ex2_mod1}
 
 x1の係数（真値=1）: 大きいほうにかたよる。
 
@@ -412,7 +412,7 @@ hist(m1_x1, main = "In case model1 is selected",
 abline(v = 1, col = "red", lty = 2)
 ```
 
-## model2が選択された場合 {#ex2_mod2}
+## model2が選択されたばあい {#ex2_mod2}
 
 x1の係数（真値=1）: 小さいほうにかたよる。
 
