@@ -195,10 +195,14 @@ stopCluster(cl)
 
 ## AIC {#ex1_AIC}
 
+各モデル（1〜8）が選択された割合
+
 ```{r ex1_AIC}
 # smallest-AIC model
 min_aic <- sapply(1:R, function(i) which.min(rlist[[i]]$AIC))
-summary(factor(min_aic))
+pr <- summary(factor(min_aic)) / R
+print(pr[1:4])
+print(pr[5:8])
 ```
 
 「正しい」モデル（model1）が選ばれた割合はおよそ`r round(summary(factor(min_aic))[1] / R * 100, 0)`%
@@ -253,18 +257,26 @@ abline(v = 0.05, col = "red", lty = 2)
 
 ## AICc {#ex1_AICc}
 
+各モデル（1〜8）が選択された割合
+
 ```{r ex1_AICc}
 min_aicc <- sapply(1:R, function(i) which.min(rlist[[i]]$AICc))
-summary(factor(min_aicc))
+pr <- summary(factor(min_aicc)) / R
+print(pr[1:4])
+print(pr[5:8])
 ```
 
 「正しい」モデル（model1）が選ばれた割合はおよそ`r round(summary(factor(min_aicc))[1] / R * 100, 0)`%
 
 ## BIC {#ex1_BIC}
 
+各モデル（1〜8）が選択された割合
+
 ```{r ex1_BIC}
 min_bic <- sapply(1:R, function(i) which.min(rlist[[i]]$BIC))
-summary(factor(min_bic))
+pr <- summary(factor(min_bic)) / R
+print(pr[1:4])
+print(pr[5:8])
 ```
 
 「正しい」モデル（model1）が選ばれた割合はおよそ`r round(summary(factor(min_bic))[1] / R * 100, 0)`%
@@ -390,19 +402,19 @@ sum(results[, "BIC1"] > results[, "BIC2"]) / R
 
 ## AICでmodel1が選択された場合 {#ex2_mod1}
 
-x1の係数: 大きいほうにかたよる。
+x1の係数（真値=1）: 大きいほうにかたよる。
 
 ```{r ex2_m1_x1}
 m1_x1 <- results[results[, "AIC1"] < results[, "AIC2"],
                  "coef1.x1"]
 hist(m1_x1, main = "In case model1 is selected",
      xlab = "Coefficient of x1")
-#summary(m1_x1)
+abline(v = 1, col = "red", lty = 2)
 ```
 
 ## model2が選択された場合 {#ex2_mod2}
 
-x1の係数: 小さいほうにかたよる。
+x1の係数（真値=1）: 小さいほうにかたよる。
 
 ```{r ex2_m2_x1}
 # in case model2 is selected
@@ -410,19 +422,20 @@ m2_x1 <- results[results[, "AIC1"] > results[, "AIC2"],
                  "coef2.x1"]
 hist(m2_x1, main = "In case model2 is selected",
      xlab = "Coefficient of x1")
-#summary(m2_x1)
+abline(v = 1, col = "red", lty = 2)
+#sum(m2_x1 > 1) / length(m2_x1)
 ```
 
 ---
 
-x2の係数: 大きいほうにかたよる。
+x2の係数（真値=`r coef`）: 大きいほうにかたよる。
 
 ```{r ex2_m2_x2}
 m2_x2 <- results[results[, "AIC1"] > results[, "AIC2"],
                  "coef2.x2"]
 hist(m2_x2, main = "In case model2 is selected",
      xlab = "Coefficient of x2")
-#summary(m2_x2)
+abline(v = coef, col = "red", lty = 2)
 ```
 
 # まとめ {#summary}
