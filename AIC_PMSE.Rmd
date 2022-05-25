@@ -22,12 +22,14 @@ library(parallel)
 options(cl.cores = 8)
 ```
 
-# 生態学の統計解析で<br />よくみるパターン
+# 生態学の統計解析で<br />わりとあるパターン {#intro}
 
+<div style="margin-top: 2em; font-size: 125%;">
 1. <abbr title="Akaike's Information Criterion">AIC</abbr>（赤池情報量基準）でモデル選択
 2. 「ベストモデル」で、係数の有意性検定
+</div>
 
-# しかし
+## しかし {#intro2}
 
 <span style="font-size: 150%;">
 そもそも
@@ -41,7 +43,7 @@ options(cl.cores = 8)
 粕谷 (2015)
 </div>
 
-## AICは予測性能が高いモデルを選ぶ {#yosoku}
+## AICは予測性能が高いモデルを選ぶ {#intro3}
 
 - 「AICの理論は平均的な予測がよいモデルを相対的に選ぶもの」
 - 「AIC最小のモデルが真のモデルとどれだけ確実に一致するか、あるいは他のモデルが否定されるかについて述べているわけではない」
@@ -50,7 +52,7 @@ options(cl.cores = 8)
 粕谷 (2015)
 </div>
 
-## モデルの当てはまりの良さでもない
+## モデルの当てはまりの良さでもないぶ {#intro4}
 
 <div style="text-align: left; padding: 1em;">
 「モデルの相対的な当てはまりの良さはAICにより比較した」という論文もあるが... <!-- 日林誌 vol.103 p.274-->
@@ -64,11 +66,11 @@ options(cl.cores = 8)
 
 <div style="text-align: left;">
 - 有意性検定: 多くのばあい、係数が0であるかないかを検定
-- モデル選択ではずれた説明変数は、係数=0としていることと同義
+- モデル選択ではずれた説明変数は、係数=0としていることと等価
     - 残った変数で、あらためて係数=0か検定する意義とは?
 </div>
 
-## 回帰分析の目的
+## 回帰分析の目的 {#regression}
 
 <div style="text-align: left;">
 1. 目的変数と説明変数の関係の記述
@@ -80,7 +82,7 @@ options(cl.cores = 8)
 </div>
 
 
-## 予測と因果はちがう
+## 予測と因果はちがう {#predition-causual}
 
 <div style="font-size: 125%; text-align: left;">
 「予測を目的とした回帰モデルの偏回帰係数に因果関係的な解釈を持ち込もうとする(期待する)のはもちろんのこと，個々の偏回帰係数が生物学的・生態学的にどのような意味を持つのかを考察することも，本来の解析目的からは逸脱した，明確な理論的根拠に欠ける行為である」
@@ -90,7 +92,7 @@ options(cl.cores = 8)
 </div>
 
 
-## モデル選択後の検定・推定
+## モデル選択後の検定・推定 {#pmse}
 
 <div style="text-align: left;">
 - AICに限らず、選択されたモデルという条件付きでは
@@ -105,7 +107,7 @@ options(cl.cores = 8)
 
 ```{r example1}
 # Number of replications
-R <- 10^4
+R <- 10^5
 
 # Sample size
 N <- 50
@@ -123,7 +125,7 @@ sd2 <- 3
 目的変数は説明変数とは無関係
 </div>
 
-```{r ex1_data}
+```{r ex1_data, cache=TRUE}
 data <- lapply(1:R, function(i) {
   x <- mvrnorm(N, c(0, 0, 0),
                matrix(c(sd1, 0, 0,
@@ -182,7 +184,11 @@ rlist <- clusterMap(cl, function(d) {
   } else {
     coef_x1 <- pv_x1 <- NA
   }
-  list(AIC = aic, AICc = aicc, BIC = bic, coef_x1 = coef_x1, pv_x1 = pv_x1)
+  
+  # p-value for coefficient of x1 in the full model (model 8)
+  pv_x1_m8 <- summary(m[[8]])$coefficients["x1", "Pr(>|t|)"]
+  list(AIC = aic, AICc = aicc, BIC = bic, coef_x1 = coef_x1,
+       pv_x1 = pv_x1, pv_x1_m8 = pv_x1_m8)
 }, data)
 stopCluster(cl)
 ```
@@ -211,7 +217,7 @@ hist(coef_x1, main = "In the \"best\" models which contain x1",
      xlab = "Coefficient of x1")
 ```
 
-## x1の係数についてのp値の頻度分布 {#ex1_coef_x1}
+## x1の係数についてのp値の頻度分布 {#ex1_p-value_x1}
 
 x1を含むモデルが選択された場合
 
@@ -228,6 +234,21 @@ abline(v = 0.05, col = "red", lty = 2)
 text(0.6, 100,
      paste("Prop. p < 0.05:", round(sum(pv_x1 < 0.05) / length(pv_x1), 2)),
      cex = 2)
+```
+
+## モデル選択をしないとき {#ex1_p-value_full}
+
+フルモデルでの、x1の係数についてのp値
+
+```{r ex1_p-value_x1_in_model8}
+# p-value for x1 in the full model
+pv_x1_m8 <- sapply(1:R, function(i) {
+  rlist[[i]]$pv_x1_m8
+})
+hist(pv_x1_m8, main = "In the full model",
+     xlab = "p-value for the coefficientnt of x1",
+     xlim = c(0, 1), breaks = seq(0, 1, 0.0125))
+abline(v = 0.05, col = "red", lty = 2)
 ```
 
 ## AICc {#ex1_AICc}
@@ -422,7 +443,7 @@ hist(m2_x2, main = "In case model2 is selected",
 - Zhang et al. (2022) Post-model-selection inference in linear regression models: An integrated review. [doi:10.1214/22-SS135](https://doi.org/10.1214/22-SS135)
 </div>
 
-## ファイルなど
+## ファイルなど {#file}
 
 <div style="text-align: left;">
 今回のスライドは
