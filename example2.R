@@ -5,7 +5,7 @@ library(parallel)
 # Set number of CPU cores
 options(cl.cores = 8)
 
-R <- 100000
+R <- 10^5
 N <- 100
 
 set.seed(123)
@@ -20,12 +20,12 @@ plot(data[[1]]$x1, data[[1]]$x2)
 
 cl <- makeCluster(getOption("cl.cores", 2))
 rlist <- clusterMap(cl, function(d) {
-  m1 <- glm(y ~ x1, data = d)
-  m2 <- glm(y ~ x1 + x2, data = d)
+  m1 <- lm(y ~ x1, data = d)
+  m2 <- lm(y ~ x1 + x2, data = d)
 
   c(AIC1 =  AIC(m1), AIC2 = AIC(m2),
     AICc1 = AICcmodavg::AICc(m1), AICc2 = AICcmodavg::AICc(m2),
-    BIC1 =BIC(m1), BIC2 = BIC(m2),
+    BIC1 = BIC(m1), BIC2 = BIC(m2),
     coef1 = coef(m1)[-1], coef2 = coef(m2)[-1])
 }, data)
 stopCluster(cl)

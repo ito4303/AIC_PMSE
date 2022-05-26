@@ -10,7 +10,7 @@ output:
     css: style.css
     reveal_options:
       slideNumber: true
-      previewLinks: true
+      previewLinks: false
 ---
 
 ```{r setup, include=FALSE}
@@ -22,12 +22,14 @@ library(parallel)
 options(cl.cores = 8)
 ```
 
-# 生態学の統計解析で<br />よくみるパターン
+# 生態学の統計解析で<br />わりとあるパターン {#intro}
 
-1. <abbr title="Akaike's Information Criterion">AIC</abbr>（赤池情報量基準）でモデル選択
+<div style="margin-top: 2em; font-size: 125%;">
+1. AIC（赤池情報量基準）でモデル選択
 2. 「ベストモデル」で、係数の有意性検定
+</div>
 
-# しかし
+## しかし {#intro2}
 
 <span style="font-size: 150%;">
 そもそも
@@ -41,7 +43,7 @@ options(cl.cores = 8)
 粕谷 (2015)
 </div>
 
-## AICは予測性能が高いモデルを選ぶ {#yosoku}
+## AICは予測性能が高いモデルを選ぶ {#intro3}
 
 - 「AICの理論は平均的な予測がよいモデルを相対的に選ぶもの」
 - 「AIC最小のモデルが真のモデルとどれだけ確実に一致するか、あるいは他のモデルが否定されるかについて述べているわけではない」
@@ -50,7 +52,7 @@ options(cl.cores = 8)
 粕谷 (2015)
 </div>
 
-## モデルの当てはまりの良さでもない
+## モデルの当てはまりの良さでもない {#intro4}
 
 <div style="text-align: left; padding: 1em;">
 「モデルの相対的な当てはまりの良さはAICにより比較した」という論文もあるが... <!-- 日林誌 vol.103 p.274-->
@@ -64,11 +66,11 @@ options(cl.cores = 8)
 
 <div style="text-align: left;">
 - 有意性検定: 多くのばあい、係数が0であるかないかを検定
-- モデル選択ではずれた説明変数は、係数=0としていることと同義
+- モデル選択で はずれた説明変数は、係数=0としていることと等価
     - 残った変数で、あらためて係数=0か検定する意義とは?
 </div>
 
-## 回帰分析の目的
+## 回帰分析の目的 {#regression}
 
 <div style="text-align: left;">
 1. 目的変数と説明変数の関係の記述
@@ -80,7 +82,7 @@ options(cl.cores = 8)
 </div>
 
 
-## 予測と因果はちがう
+## 予測と因果はちがう {#predition-causual}
 
 <div style="font-size: 125%; text-align: left;">
 「予測を目的とした回帰モデルの偏回帰係数に因果関係的な解釈を持ち込もうとする(期待する)のはもちろんのこと，個々の偏回帰係数が生物学的・生態学的にどのような意味を持つのかを考察することも，本来の解析目的からは逸脱した，明確な理論的根拠に欠ける行為である」
@@ -90,7 +92,7 @@ options(cl.cores = 8)
 </div>
 
 
-## モデル選択後の検定・推定
+## モデル選択後の検定・推定 {#pmse}
 
 <div style="text-align: left;">
 - AICに限らず、選択されたモデルという条件付きでは
@@ -105,7 +107,7 @@ options(cl.cores = 8)
 
 ```{r example1}
 # Number of replications
-R <- 10^4
+R <- 10^5
 
 # Sample size
 N <- 50
@@ -123,7 +125,7 @@ sd2 <- 3
 目的変数は説明変数とは無関係
 </div>
 
-```{r ex1_data}
+```{r ex1_data, cache=TRUE}
 data <- lapply(1:R, function(i) {
   x <- mvrnorm(N, c(0, 0, 0),
                matrix(c(sd1, 0, 0,
@@ -152,74 +154,132 @@ data <- lapply(1:R, function(i) {
 
 <div style="text-align: left;">
 - AICによるモデル選択を 10^`r log10(R)` 回くりかえし<br />
-- 選択されたモデルの頻度分布を求める。
+- 選択されたモデルの頻度分布を求める
 </div>
 
 ```{r ex1_model, cache=TRUE}
 cl <- makeCluster(getOption("cl.cores", 2))
 rlist <- clusterMap(cl, function(d) {
   m <- list()
-  m[[1]] <- glm(y ~ 1, data = d)
-  m[[2]] <- glm(y ~ x1, data = d)
-  m[[3]] <- glm(y ~ x2, data = d)
-  m[[4]] <- glm(y ~ x3, data = d)
-  m[[5]] <- glm(y ~ x1 + x2, data = d)
-  m[[6]] <- glm(y ~ x1 + x3, data = d)
-  m[[7]] <- glm(y ~ x2 + x3, data = d)
-  m[[8]] <- glm(y ~ x1 + x2 + x3, data = d)
-  
+  m[[1]] <- lm(y ~ 1, data = d)
+  m[[2]] <- lm(y ~ x1, data = d)
+  m[[3]] <- lm(y ~ x2, data = d)
+  m[[4]] <- lm(y ~ x3, data = d)
+  m[[5]] <- lm(y ~ x1 + x2, data = d)
+  m[[6]] <- lm(y ~ x1 + x3, data = d)
+  m[[7]] <- lm(y ~ x2 + x3, data = d)
+  m[[8]] <- lm(y ~ x1 + x2 + x3, data = d)
+
   aic <- sapply(1:8, function(i) AIC(m[[i]]))
   aicc <- sapply(1:8, function(i) AICcmodavg::AICc(m[[i]]))
   bic <- sapply(1:8, function(i) BIC(m[[i]]))
   coef <- sapply(1:8, function(i) coef(m[[i]]))
-  list(AIC = aic, AICc = aicc, BIC = bic, coef = coef)
+
+  # coefficient of x1 and its p-value in the smallest-AIC model
+  min_aic <- which.min(aic)
+  if (min_aic %in% c(2, 5, 6, 8)) {
+    s <- summary(m[[min_aic]])
+    coef_x1 <- s$coefficients["x1", "Estimate"]
+    pv_x1 <- s$coefficients["x1", "Pr(>|t|)"]
+  } else {
+    coef_x1 <- pv_x1 <- NA
+  }
+  
+  # p-value for coefficient of x1 in the full model (model 8)
+  pv_x1_m8 <- summary(m[[8]])$coefficients["x1", "Pr(>|t|)"]
+  list(AIC = aic, AICc = aicc, BIC = bic, coef_x1 = coef_x1,
+       pv_x1 = pv_x1, pv_x1_m8 = pv_x1_m8)
 }, data)
 stopCluster(cl)
 ```
 
 ## AIC {#ex1_AIC}
 
+各モデル（1〜8）が選択された割合
+
 ```{r ex1_AIC}
 # smallest-AIC model
 min_aic <- sapply(1:R, function(i) which.min(rlist[[i]]$AIC))
-summary(factor(min_aic))
+pr <- summary(factor(min_aic)) / R
+print(pr[1:4])
+print(pr[5:8])
 ```
 
-「正しい」モデル(model1)が選ばれた割合はおよそ`r round(summary(factor(min_aic))[1] / R * 100, 0)`%
+「正しい」モデル（model1）が選ばれた割合はおよそ`r round(summary(factor(min_aic))[1] / R * 100, 0)`%
 
 ## x1の係数の頻度分布 {#ex1_coef_x1}
 
-x1を含むモデルが選択された場合では
+x1を含むモデルが選択されたばあい
 
 ```{r ex1_coef_x1}
 # coefficient of x1 in the smallest-AIC models which contain x1
 coef_x1 <- sapply(1:R, function(i) {
-  ifelse(min_aic[i] %in% c(2, 5, 6, 8),
-         rlist[[i]]$coef[[min_aic[i]]]["x1"],
-         as.numeric(NA))
+         rlist[[i]]$coef_x1
   })
 coef_x1 <- coef_x1[!is.na(coef_x1)]
 hist(coef_x1, main = "In the \"best\" models which contain x1",
      xlab = "Coefficient of x1")
 ```
 
+## x1の係数についてのp値の頻度分布 {#ex1_p-value_x1}
+
+x1を含むモデルが選択されたばあい
+
+```{r ex1_p-value_x1}
+# p-value for x1 in the smallest-AIC models which contain x1
+pv_x1 <- sapply(1:R, function(i) {
+  rlist[[i]]$pv_x1
+})
+pv_x1 <- pv_x1[!is.na(pv_x1)]
+hist(pv_x1, main = "In the \"best\" models which contain x1",
+     xlab = "p-value for the coefficientnt of x1",
+     xlim = c(0, 1), breaks = seq(0, 1, 0.0125))
+abline(v = 0.05, col = "red", lty = 2)
+text(0.6, 100,
+     paste("Prop. p < 0.05:", round(sum(pv_x1 < 0.05) / length(pv_x1), 2)),
+     cex = 2)
+```
+
+## モデル選択をしないとき {#ex1_p-value_full}
+
+フルモデルでの、x1の係数についてのp値
+
+```{r ex1_p-value_x1_in_model8}
+# p-value for x1 in the full model
+pv_x1_m8 <- sapply(1:R, function(i) {
+  rlist[[i]]$pv_x1_m8
+})
+hist(pv_x1_m8, main = "In the full model",
+     xlab = "p-value for the coefficientnt of x1",
+     xlim = c(0, 1), breaks = seq(0, 1, 0.0125))
+abline(v = 0.05, col = "red", lty = 2)
+```
+
 ## AICc {#ex1_AICc}
+
+各モデル（1〜8）が選択された割合
 
 ```{r ex1_AICc}
 min_aicc <- sapply(1:R, function(i) which.min(rlist[[i]]$AICc))
-summary(factor(min_aicc))
+pr <- summary(factor(min_aicc)) / R
+print(pr[1:4])
+print(pr[5:8])
 ```
 
-「正しい」モデル(model1)が選ばれた割合はおよそ`r round(summary(factor(min_aicc))[1] / R * 100, 0)`%
+「正しい」モデル（model1）が選ばれた割合はおよそ`r round(summary(factor(min_aicc))[1] / R * 100, 0)`%
 
 ## BIC {#ex1_BIC}
 
+各モデル（1〜8）が選択された割合
+
 ```{r ex1_BIC}
 min_bic <- sapply(1:R, function(i) which.min(rlist[[i]]$BIC))
-summary(factor(min_bic))
+pr <- summary(factor(min_bic)) / R
+print(pr[1:4])
+print(pr[5:8])
 ```
 
-「正しい」モデル(model1)が選ばれた割合はおよそ`r round(summary(factor(min_bic))[1] / R * 100, 0)`%
+「正しい」モデル（model1）が選ばれた割合はおよそ`r round(summary(factor(min_bic))[1] / R * 100, 0)`%
 
 BICは、候補に「正しい」モデル（データを生成したモデル）を含んでいて、
 サンプルサイズがじゅうぶんに大きければ、「正しい」モデルを選択するとされる。
@@ -286,14 +346,14 @@ pairs(data[[1]])
 
 <div style="text-align: left;">
 - AICによるモデル選択を 10^`r log10(R)` 回くりかえし<br />
-- 選択されたモデルの頻度分布を求める。
+- 選択されたモデルの頻度分布を求める
 </div>
 
 ```{r ex2_model, cache=TRUE}
 cl <- makeCluster(getOption("cl.cores", 2))
 rlist <- clusterMap(cl, function(d) {
-  m1 <- glm(y ~ x1, data = d)
-  m2 <- glm(y ~ x1 + x2, data = d)
+  m1 <- lm(y ~ x1, data = d)
+  m2 <- lm(y ~ x1 + x2, data = d)
 
   c(AIC1 =  AIC(m1), AIC2 = AIC(m2),
     AICc1 = AICcmodavg::AICc(m1), AICc2 = AICcmodavg::AICc(m2),
@@ -340,21 +400,21 @@ sum(results[, "BIC1"] > results[, "BIC2"]) / R
 
 およそ`r round(sum(results[, "BIC1"] > results[, "BIC2"]) / R * 100, 0)`%
 
-## AICでmodel1が選択された場合 {#ex2_mod1}
+## AICでmodel1が選択されたばあい {#ex2_mod1}
 
-x1の係数: 大きいほうにかたよる。
+x1の係数（真値=1）: 大きいほうにかたよる。
 
 ```{r ex2_m1_x1}
 m1_x1 <- results[results[, "AIC1"] < results[, "AIC2"],
                  "coef1.x1"]
 hist(m1_x1, main = "In case model1 is selected",
      xlab = "Coefficient of x1")
-#summary(m1_x1)
+abline(v = 1, col = "red", lty = 2)
 ```
 
-## model2が選択された場合 {#ex2_mod2}
+## model2が選択されたばあい {#ex2_mod2}
 
-x1の係数: 小さいほうにかたよる。
+x1の係数（真値=1）: 小さいほうにかたよる。
 
 ```{r ex2_m2_x1}
 # in case model2 is selected
@@ -362,75 +422,21 @@ m2_x1 <- results[results[, "AIC1"] > results[, "AIC2"],
                  "coef2.x1"]
 hist(m2_x1, main = "In case model2 is selected",
      xlab = "Coefficient of x1")
-#summary(m2_x1)
+abline(v = 1, col = "red", lty = 2)
+#sum(m2_x1 > 1) / length(m2_x1)
 ```
 
 ---
 
-x2の係数: 大きいほうにかたよる。
+x2の係数（真値=`r coef`）: 大きいほうにかたよる。
 
 ```{r ex2_m2_x2}
 m2_x2 <- results[results[, "AIC1"] > results[, "AIC2"],
                  "coef2.x2"]
 hist(m2_x2, main = "In case model2 is selected",
      xlab = "Coefficient of x2")
-#summary(m2_x2)
+abline(v = coef, col = "red", lty = 2)
 ```
-
-# 実例3 {#example3}
-
-```{r ex3_settings, cache=TRUE}
-R <- 10^4
-N <- 100
-
-set.seed(123)
-
-data <- lapply(1:R, function(i) {
-  x <- matrix(rnorm(N * 10), ncol = 10, nrow = N)
-  y <- x[, 1] + x[, 2] + x[, 3] + rnorm(N, 0, 1)
-  list(x = x, y = y)
-})
-
-cl <- makeCluster(getOption("cl.cores", 2))
-rlist <- clusterMap(cl, function(d) {
-  # stepAIC
-  m <- MASS::stepAIC(lm(y ~ x[, 1] + x[, 2] + x[, 3] + x[, 4] + x[, 5] +
-                          x[, 6] + x[, 7] + x[, 8] + x[, 9] + x[, 10],
-                        data = d))
-  # check if x[, 4] is included in the selected model
-  if ("x[, 4]" %in% colnames(m$model)) {
-    pv_step <- summary(m)$coefficients["x[, 4]", "Pr(>|t|)"]
-  } else {
-    pv_step <- NA
-  }
-  pv_step
-}, data)
-stopCluster(cl)
-
-p_value <- unlist(rlist)
-```
-
-- サンプルサイズ: `r N`
-- 説明変数: $x_1, x_2,..., x_{10} \sim \mathcal{N}(0, 1)$
-- 目的変数: $y \sim \mathcal{N}(x_1 + x_2 + x_3, 1)$
-- stepAIC関数でモデル選択
-- 10^`r log10(R)`回くりかえし
-- 選択されたモデルで、$x_4$が含まれたものについて、$x_4$の有意水準の頻度分布を求める
-    - 本来なら、有意水準5%で有意になる割合は5%のはず。
-
-<div style="text-align: left; margin-top: 2em; font-size: 80%;">
-※この例は、@saltcooky (2019)を参考にしました。
-</div>
-
-
-
-## p値の頻度分布
-
-```{r ex3_result}
-hist(p_value, breaks = seq(0, 1, 0.025), xlim = c(0, 1))
-abline(v = 0.05, col = "red", lty = 2)
-```
-
 
 # まとめ {#summary}
 
@@ -440,18 +446,17 @@ abline(v = 0.05, col = "red", lty = 2)
 
 # 参考文献 {#references}
 
-<div style="font-size: 60%; text-align: left; line-height: 100%;">
+<div style="font-size: 66%; text-align: left; line-height: 100%;">
 - 伊庭幸人 (2017) モデル選択超速習 AICからスパースまで. 岩波データサイエンス Vol.5 p.6–18
-- 粕谷英一 (2015) 生態学におけるAICの誤用: AICは正しいモデルを選ぶためのものではないので正しいモデルを選ばない. [doi:10.18960/seitai.65.2_179](https://doi.org/10.18960/seitai.65.2_179)
+- 粕谷英一 (2015) [生態学におけるAICの誤用: AICは正しいモデルを選ぶためのものではないので正しいモデルを選ばない.](https://doi.org/10.18960/seitai.65.2_179) 日本生態学会誌 65:179&ndash;185
 - 久保拓弥 (2012) データ解析のための統計モデリング入門&mdash;一般化線形モデル・階層ベイズモデル・MCMC. 岩波書店
-- Kuchibhotla et al. (2022) Post-Selection Inference. [doi:10.1146/annurev-statistics-100421-044639](https://doi.org/10.1146/annurev-statistics-100421-044639)
+- Kuchibhotla et al. (2022) [Post-Selection Inference.](https://doi.org/10.1146/annurev-statistics-100421-044639) Annual Review of Statistics and Its Application 9:505&ndash;527
 - 大久保祐作 (2022) "生態学と因果推論1" https://github.com/OhkuboYusaku/blog/tree/main/causal
-- @saltcooky (2019) 仮説検定における変数選択の影響を考えるSelective Inference入門 with R. https://qiita.com/saltcooky/items/9b25e7540b7f7d7bc61f
-- 竹下ほか (2022) 哺乳類研究における非実験データセットに対する回帰分析の適用について. [doi:10.11238/mammalianscience.62.69](https://doi.org/10.11238/mammalianscience.62.69)
-- Zhang et al. (2022) Post-model-selection inference in linear regression models: An integrated review. [doi:10.1214/22-SS135](https://doi.org/10.1214/22-SS135)
+- 竹下ほか (2022) [哺乳類研究における非実験データセットに対する回帰分析の適用について.](https://doi.org/10.11238/mammalianscience.62.69) 哺乳類科学 62: 69&ndash;79
+- Zhang et al. (2022) [Post-model-selection inference in linear regression models: An integrated review.](https://doi.org/10.1214/22-SS135) Statistics Surveys 16: 86&ndash;136
 </div>
 
-## ファイルなど
+## ファイルなど {#files}
 
 <div style="text-align: left;">
 今回のスライドは
