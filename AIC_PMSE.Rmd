@@ -25,7 +25,7 @@ options(cl.cores = 8)
 # 生態学の統計解析で<br />わりとあるパターン {#intro}
 
 <div style="margin-top: 2em; font-size: 125%;">
-1. <abbr title="Akaike's Information Criterion">AIC</abbr>（赤池情報量基準）でモデル選択
+1. AIC（赤池情報量基準）でモデル選択
 2. 「ベストモデル」で、係数の有意性検定
 </div>
 
@@ -448,15 +448,15 @@ abline(v = coef, col = "red", lty = 2)
 
 <div style="font-size: 66%; text-align: left; line-height: 100%;">
 - 伊庭幸人 (2017) モデル選択超速習 AICからスパースまで. 岩波データサイエンス Vol.5 p.6–18
-- 粕谷英一 (2015) 生態学におけるAICの誤用: AICは正しいモデルを選ぶためのものではないので正しいモデルを選ばない. [doi:10.18960/seitai.65.2_179](https://doi.org/10.18960/seitai.65.2_179)
+- 粕谷英一 (2015) [生態学におけるAICの誤用: AICは正しいモデルを選ぶためのものではないので正しいモデルを選ばない.](https://doi.org/10.18960/seitai.65.2_179) 日本生態学会誌 65:179&ndash;185
 - 久保拓弥 (2012) データ解析のための統計モデリング入門&mdash;一般化線形モデル・階層ベイズモデル・MCMC. 岩波書店
-- Kuchibhotla et al. (2022) Post-Selection Inference. [doi:10.1146/annurev-statistics-100421-044639](https://doi.org/10.1146/annurev-statistics-100421-044639)
+- Kuchibhotla et al. (2022) [Post-Selection Inference.](https://doi.org/10.1146/annurev-statistics-100421-044639) Annual Review of Statistics and Its Application 9:505&ndash;527
 - 大久保祐作 (2022) "生態学と因果推論1" https://github.com/OhkuboYusaku/blog/tree/main/causal
-- 竹下ほか (2022) 哺乳類研究における非実験データセットに対する回帰分析の適用について. [doi:10.11238/mammalianscience.62.69](https://doi.org/10.11238/mammalianscience.62.69)
-- Zhang et al. (2022) Post-model-selection inference in linear regression models: An integrated review. [doi:10.1214/22-SS135](https://doi.org/10.1214/22-SS135)
+- 竹下ほか (2022) [哺乳類研究における非実験データセットに対する回帰分析の適用について.](https://doi.org/10.11238/mammalianscience.62.69) 哺乳類科学 62: 69&ndash;79
+- Zhang et al. (2022) [Post-model-selection inference in linear regression models: An integrated review.](https://doi.org/10.1214/22-SS135) Statistics Surveys 16: 86&ndash;136
 </div>
 
-## ファイルなど {#file}
+## ファイルなど {#files}
 
 <div style="text-align: left;">
 今回のスライドは
