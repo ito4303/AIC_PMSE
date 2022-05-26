@@ -52,7 +52,7 @@ options(cl.cores = 8)
 粕谷 (2015)
 </div>
 
-## モデルの当てはまりの良さでもないぶ {#intro4}
+## モデルの当てはまりの良さでもない {#intro4}
 
 <div style="text-align: left; padding: 1em;">
 「モデルの相対的な当てはまりの良さはAICにより比較した」という論文もあるが... <!-- 日林誌 vol.103 p.274-->
