@@ -55,7 +55,7 @@ options(cl.cores = 8)
 ## モデルの当てはまりの良さでもない {#intro4}
 
 <div style="text-align: left; padding: 1em;">
-「モデルの相対的な当てはまりの良さはAICにより比較した」という論文もあるが... <!-- 日林誌 vol.103 p.274-->
+「モデルの相対的な当てはまりの良さ」を「AICにより比較した」という論文もあったりするが... <!-- 日林誌 vol.103 p.274-->
 </div>
 <div style="text-align: left;">
 - 「AICは統計モデルのあてはまりの良さ (goodness of fit) ではなく、予測の良さ (goodness of prediction) を重視するモデル選択基準です」(久保 2012)
@@ -92,15 +92,13 @@ options(cl.cores = 8)
 </div>
 
 
-## モデル選択後の検定・推定 {#pmse}
+## モデル選択後の検定・推定 {#pms}
 
 <div style="text-align: left;">
 - AICに限らず、選択されたモデルという条件付きでは
-    - 推定値の分布がゆがむ場合がある
-    - 帰無仮説が棄却される確率が有意水準どおりにならない場合がある
-- 正しく推定できる手法は、現在も統計学者が議論している (Kuchibhotla et al. 2022, Zhang et al. 2022, etc.)
-    - Post-model-selection inference
-    - Post-model-selection estimator
+    - 推定値の分布がゆがむことがある
+    - 帰無仮説が棄却される確率が 有意水準どおりにならないことがある
+- 正しく推定できる手法は、統計学者が研究している (Kuchibhotla et al. 2022, Zhang et al. 2022, etc.)
 </div>
 
 # 実例1 {#example1}
@@ -235,7 +233,7 @@ hist(pv_x1, main = "In the \"best\" models which contain x1",
      xlab = "p-value for the coefficientnt of x1",
      xlim = c(0, 1), breaks = seq(0, 1, 0.0125))
 abline(v = 0.05, col = "red", lty = 2)
-text(0.6, 100,
+text(0.6, 1000,
      paste("Prop. p < 0.05:", round(sum(pv_x1 < 0.05) / length(pv_x1), 2)),
      cex = 2)
 ```
