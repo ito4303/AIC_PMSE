@@ -9,10 +9,10 @@ library(parallel)
 options(cl.cores = 8)
 
 # Number of replications
-R <- 10^5
+R <- 10^4
 
 # Sample size
-N <- 50
+N <- 1000
 
 set.seed(123)
 

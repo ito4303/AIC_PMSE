@@ -105,10 +105,10 @@ options(cl.cores = 8)
 
 ```{r example1}
 # Number of replications
-R <- 10^5
+R <- 10^4
 
 # Sample size
-N <- 50
+N <- 1000
 
 set.seed(123)
 sd1 <- 1
@@ -233,7 +233,7 @@ hist(pv_x1, main = "In the \"best\" models which contain x1",
      xlab = "p-value for the coefficientnt of x1",
      xlim = c(0, 1), breaks = seq(0, 1, 0.0125))
 abline(v = 0.05, col = "red", lty = 2)
-text(0.6, 1000,
+text(0.6, 100,
      paste("Prop. p < 0.05:", round(sum(pv_x1 < 0.05) / length(pv_x1), 2)),
      cex = 2)
 ```
@@ -273,8 +273,11 @@ print(pr[5:8])
 ```{r ex1_BIC}
 min_bic <- sapply(1:R, function(i) which.min(rlist[[i]]$BIC))
 pr <- summary(factor(min_bic)) / R
-print(pr[1:4])
-print(pr[5:8])
+pr2 <- rep(0, 8)
+names(pr2) <- 1:8
+for (i in names(pr)) {pr2[as.numeric(i)] <- pr[i]}
+print(pr2[1:4])
+print(pr2[5:8])
 ```
 
 「正しい」モデル（model1）が選ばれた割合はおよそ`r round(summary(factor(min_bic))[1] / R * 100, 0)`%
@@ -285,7 +288,7 @@ BICは、候補に「正しい」モデル（データを生成したモデル�
 # 実例2 {#example2}
 
 ```{r ex2_settings}
-R <- 10^5
+R <- 10^4
 N <- 50
 
 set.seed(123)
