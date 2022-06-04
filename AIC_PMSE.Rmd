@@ -253,19 +253,6 @@ hist(pv_x1_m8, main = "In the full model",
 abline(v = 0.05, col = "red", lty = 2)
 ```
 
-## AICc {#ex1_AICc}
-
-各モデル（1〜8）が選択された割合
-
-```{r ex1_AICc}
-min_aicc <- sapply(1:R, function(i) which.min(rlist[[i]]$AICc))
-pr <- summary(factor(min_aicc)) / R
-print(pr[1:4])
-print(pr[5:8])
-```
-
-「正しい」モデル（model1）が選ばれた割合はおよそ`r round(summary(factor(min_aicc))[1] / R * 100, 0)`%
-
 ## BIC {#ex1_BIC}
 
 各モデル（1〜8）が選択された割合
