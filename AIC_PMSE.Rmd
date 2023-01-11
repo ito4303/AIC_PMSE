@@ -24,82 +24,79 @@ options(cl.cores = 8)
 
 # 生態学の統計解析で<br />わりとあるパターン {#intro}
 
-<div style="margin-top: 2em; font-size: 125%;">
-1. AIC（赤池情報量基準）でモデル選択
-2. 「ベストモデル」で、係数の有意性検定
-</div>
+::: {style="margin-top: 2em; font-size: 125%;"}
+1.  AIC（赤池情報量基準）でモデル選択
+2.  「ベストモデル」で、係数の有意性検定
+:::
 
 ## しかし {#intro2}
 
-<span style="font-size: 150%;">
-そもそも
-</span>
+[ そもそも ]{style="font-size: 150%;"}
 
-<span style="font-size: 200%;">
-**「AICは正しいモデルを選ぶためのものではない」**
-</span>
+[ **「AICは正しいモデルを選ぶためのものではない」** ]{style="font-size: 200%;"}
 
-<div style="text-align: right;">
+::: {style="text-align: right;"}
 粕谷 (2015)
-</div>
+:::
 
 ## AICは予測性能が高いモデルを選ぶ {#intro3}
 
-- 「AICの理論は平均的な予測がよいモデルを相対的に選ぶもの」
-- 「AIC最小のモデルが真のモデルとどれだけ確実に一致するか、あるいは他のモデルが否定されるかについて述べているわけではない」
+-   「AICの理論は平均的な予測がよいモデルを相対的に選ぶもの」
+-   「AIC最小のモデルが真のモデルとどれだけ確実に一致するか、あるいは他のモデルが否定されるかについて述べているわけではない」
 
-<div style="text-align: right;">
+::: {style="text-align: right;"}
 粕谷 (2015)
-</div>
+:::
 
 ## モデルの当てはまりの良さでもない {#intro4}
 
-<div style="text-align: left; padding: 1em;">
+::: {style="text-align: left; padding: 1em;"}
 「モデルの相対的な当てはまりの良さ」を「AICにより比較した」という論文もあったりするが... <!-- 日林誌 vol.103 p.274-->
-</div>
-<div style="text-align: left;">
-- 「AICは統計モデルのあてはまりの良さ (goodness of fit) ではなく、予測の良さ (goodness of prediction) を重視するモデル選択基準です」(久保 2012)
-- 「モデルの当てはまりと予測性能は違う」(伊庭 2017)
-</div>
+:::
+
+::: {style="text-align: left;"}
+-   「AICは統計モデルのあてはまりの良さ (goodness of fit) ではなく、予測の良さ (goodness of prediction) を重視するモデル選択基準です」(久保 2012)
+-   「モデルの当てはまりと予測性能は違う」(伊庭 2017)
+:::
 
 # モデル選択後に検定? {#post-selection-test}
 
-<div style="text-align: left;">
-- 有意性検定: 多くのばあい、係数が0であるかないかを検定
-- モデル選択で はずれた説明変数は、係数=0としていることと等価
-    - 残った変数で、あらためて係数=0か検定する意義とは?
-</div>
+::: {style="text-align: left;"}
+-   有意性検定: 多くのばあい、係数が0であるかないかを検定
+-   モデル選択で はずれた説明変数は、係数=0としていることと等価
+    -   残った変数で、あらためて係数=0か検定する意義とは?
+:::
 
 ## 回帰分析の目的 {#regression}
 
-<div style="text-align: left;">
-1. 目的変数と説明変数の関係の記述
-2. 説明変数による目的変数の予測
-3. 目的変数に対する説明変数の介入効果の推定
-</div>
-<div style="text-align: right;">
-竹内ほか (2022)
-</div>
+::: {style="text-align: left;"}
+1.  目的変数と説明変数の関係の記述
+2.  説明変数による目的変数の予測
+3.  目的変数に対する説明変数の介入効果の推定
+:::
 
+::: {style="text-align: right;"}
+竹内ほか (2022)
+:::
 
 ## 予測と因果はちがう {#predition-causual}
 
-<div style="font-size: 125%; text-align: left;">
+::: {style="font-size: 125%; text-align: left;"}
 「予測を目的とした回帰モデルの偏回帰係数に因果関係的な解釈を持ち込もうとする(期待する)のはもちろんのこと，個々の偏回帰係数が生物学的・生態学的にどのような意味を持つのかを考察することも，本来の解析目的からは逸脱した，明確な理論的根拠に欠ける行為である」
-</div>
-<div style="text-align: right;">
-竹内ほか (2022)
-</div>
+:::
 
+::: {style="text-align: right;"}
+竹内ほか (2022)
+:::
 
 ## モデル選択後の検定・推定 {#pms}
 
-<div style="text-align: left;">
-- AICに限らず、選択されたモデルという条件付きでは
-    - 推定値の分布がゆがむことがある
-    - 帰無仮説が棄却される確率が 有意水準どおりにならないことがある
-- 正しく推定できる手法は、統計学者が研究している (Kuchibhotla et al. 2022, Zhang et al. 2022, etc.)
-</div>
+::: {style="text-align: left;"}
+-   AICに限らず、選択されたモデルという条件付きでは
+    -   推定値の分布がゆがむことがある
+    -   帰無仮説が棄却される確率が 有意水準どおりにならないことがある
+-   正しく推定できる手法は、統計学者が研究している (Kuchibhotla et al. 2022, Zhang et al. 2022, etc.)
+:::
 
 # 実例1 {#example1}
 
@@ -115,13 +112,13 @@ sd1 <- 1
 sd2 <- 3
 ```
 
-<div style="text-align: left;">
-- サンプルサイズ: `r N`
-- 説明変数: $x_1, x_2, x_3 \sim \mathcal{N}(0, `r sd1`)$
-- 目的変数: $y \sim \mathcal{N}(0, `r sd2`^2)$
+::: {style="text-align: left;"}
+-   サンプルサイズ: `r N`
+-   説明変数: $x_1, x_2, x_3 \sim \mathrm{Normal}(0, `r sd1`)$
+-   目的変数: $y \sim \mathrm{Normal}(0, `r sd2`^2)$
 
 目的変数は説明変数とは無関係
-</div>
+:::
 
 ```{r ex1_data, cache=TRUE}
 data <- lapply(1:R, function(i) {
@@ -135,25 +132,25 @@ data <- lapply(1:R, function(i) {
 })
 ```
 
-<div style="text-align: left; margin-top: 2em; font-size: 80%;">
+::: {style="text-align: left; margin-top: 2em; font-size: 80%;"}
 ※この例は、Kuchibhotla et al. (2022) を参考にしました。
-</div>
+:::
 
 ## モデル {#ex1_model}
 
-1. `y ~ 1       ←「正しい」モデル`
-2. `y ~ x1`
-3. `y ~ x2`
-4. `y ~ x3`
-5. `y ~ x1 + x2`
-6. `y ~ x1 + x3`
-7. `y ~ x2 + x3`
-8. `y ~ x1 + x2 + x3`
+1.  `y ~ 1       ←「正しい」モデル`
+2.  `y ~ x1`
+3.  `y ~ x2`
+4.  `y ~ x3`
+5.  `y ~ x1 + x2`
+6.  `y ~ x1 + x3`
+7.  `y ~ x2 + x3`
+8.  `y ~ x1 + x2 + x3`
 
-<div style="text-align: left;">
-- AICによるモデル選択を 10^`r log10(R)` 回くりかえし<br />
-- 選択されたモデルの頻度分布を求める
-</div>
+::: {style="text-align: left;"}
+-   AICによるモデル選択を 10\^`r log10(R)` 回くりかえし<br />
+-   選択されたモデルの頻度分布を求める
+:::
 
 ```{r ex1_model, cache=TRUE}
 cl <- makeCluster(getOption("cl.cores", 2))
@@ -269,8 +266,7 @@ print(pr2[5:8])
 
 「正しい」モデル（model1）が選ばれた割合はおよそ`r round(summary(factor(min_bic))[1] / R * 100, 0)`%
 
-BICは、候補に「正しい」モデル（データを生成したモデル）を含んでいて、
-サンプルサイズがじゅうぶんに大きければ、「正しい」モデルを選択するが...
+BICは、候補に「正しい」モデル（データを生成したモデル）を含んでいて、 サンプルサイズがじゅうぶんに大きければ、「正しい」モデルを選択するが...
 
 # 実例2 {#example2}
 
@@ -286,27 +282,26 @@ coef <- 0.3
 sd1 <- 4
 ```
 
-<div style="text-align: left;">
-- サンプルサイズ: `r N` &nbsp;（小サンプル）
-- 説明変数: $x_1, x_2$
-- 目的変数: $y$
+::: {style="text-align: left;"}
+-   サンプルサイズ: `r N`  （小サンプル）
+-   説明変数: $x_1, x_2$
+-   目的変数: $y$
 
 以下のような式でデータが生成される。
-</div>
+:::
 
 $$
 \begin{pmatrix}x_1 \\ x_2 \end{pmatrix} \sim
-\mathcal{N}\left( \begin{pmatrix} 0 \\ 0 \end{pmatrix}, \begin{pmatrix} `r var1` & `r cov` \\ `r cov` & `r var2` \end{pmatrix} \right)
+\mathrm{MultiNormal}\left( \begin{pmatrix} 0 \\ 0 \end{pmatrix}, \begin{pmatrix} `r var1` & `r cov` \\ `r cov` & `r var2` \end{pmatrix} \right)
 $$
 
 $$
-y \sim \mathcal{N}(x_1 + `r coef` x_2, `r sd1`^2)
+y \sim \mathrm{Normal}(x_1 + `r coef` x_2, `r sd1`^2)
 $$
 
-<div style="text-align: left; margin-top: 2em; font-size: 80%;">
+::: {style="text-align: left; margin-top: 2em; font-size: 80%;"}
 ※この例は、大久保 (2022) を参考にしました。
-</div>
-
+:::
 
 ```{r ex2_data, cache=TRUE}
 data <- lapply(1:R, function(i) {
@@ -324,16 +319,15 @@ pairs(data[[1]])
 
 理論的な<abbr title="Variance Inflation Factor">VIF</abbr> = `r 1 / (1 - cov^2 / (var1 * var2))`
 
-
 ## モデル {#ex2_model}
 
-1. `y ~ x1`
-2. `y ~ x1 + x2   ←「正しい」モデル`
+1.  `y ~ x1`
+2.  `y ~ x1 + x2   ←「正しい」モデル`
 
-<div style="text-align: left;">
-- AICによるモデル選択を 10^`r log10(R)` 回くりかえし<br />
-- 選択されたモデルの頻度分布を求める
-</div>
+::: {style="text-align: left;"}
+-   AICによるモデル選択を 10\^`r log10(R)` 回くりかえし<br />
+-   選択されたモデルの頻度分布を求める
+:::
 
 ```{r ex2_model, cache=TRUE}
 cl <- makeCluster(getOption("cl.cores", 2))
@@ -412,7 +406,7 @@ abline(v = 1, col = "red", lty = 2)
 #sum(m2_x1 > 1) / length(m2_x1)
 ```
 
----
+------------------------------------------------------------------------
 
 x2の係数（真値=`r coef`）: 大きいほうにかたよる。
 
@@ -426,39 +420,36 @@ abline(v = coef, col = "red", lty = 2)
 
 # まとめ {#summary}
 
-- AICは予測を最適化するもの
-- モデル選択後に係数の検定をするのはアブない
-- 説明・予測・介入（因果）のなにを問題としているのか意識するようにする
+-   AICは予測を最適化するもの
+-   モデル選択後に係数の検定をするのはアブない
+-   説明・予測・介入（因果）のなにを問題としているのか意識するようにする
 
 # 参考文献 {#references}
 
-<div style="font-size: 66%; text-align: left; line-height: 100%;">
-- 伊庭幸人 (2017) モデル選択超速習 AICからスパースまで. 岩波データサイエンス Vol.5 p.6–18
-- 粕谷英一 (2015) [生態学におけるAICの誤用: AICは正しいモデルを選ぶためのものではないので正しいモデルを選ばない.](https://doi.org/10.18960/seitai.65.2_179) 日本生態学会誌 65:179&ndash;185
-- 久保拓弥 (2012) データ解析のための統計モデリング入門&mdash;一般化線形モデル・階層ベイズモデル・MCMC. 岩波書店
-- Kuchibhotla et al. (2022) [Post-Selection Inference.](https://doi.org/10.1146/annurev-statistics-100421-044639) Annual Review of Statistics and Its Application 9:505&ndash;527
-- 大久保祐作 (2022) "生態学と因果推論1" https://github.com/OhkuboYusaku/blog/tree/main/causal
-- 竹下ほか (2022) [哺乳類研究における非実験データセットに対する回帰分析の適用について.](https://doi.org/10.11238/mammalianscience.62.69) 哺乳類科学 62: 69&ndash;79
-- Zhang et al. (2022) [Post-model-selection inference in linear regression models: An integrated review.](https://doi.org/10.1214/22-SS135) Statistics Surveys 16: 86&ndash;136
-</div>
+::: {style="font-size: 66%; text-align: left; line-height: 100%;"}
+-   伊庭幸人 (2017) モデル選択超速習 AICからスパースまで. 岩波データサイエンス Vol.5 p.6--18
+-   粕谷英一 (2015) [生態学におけるAICの誤用: AICは正しいモデルを選ぶためのものではないので正しいモデルを選ばない.](https://doi.org/10.18960/seitai.65.2_179) 日本生態学会誌 65:179--185
+-   久保拓弥 (2012) データ解析のための統計モデリング入門---一般化線形モデル・階層ベイズモデル・MCMC. 岩波書店
+-   Kuchibhotla et al. (2022) [Post-Selection Inference.](https://doi.org/10.1146/annurev-statistics-100421-044639) Annual Review of Statistics and Its Application 9:505--527
+-   大久保祐作 (2022) "生態学と因果推論1" <https://github.com/OhkuboYusaku/blog/tree/main/causal>
+-   竹下ほか (2022) [哺乳類研究における非実験データセットに対する回帰分析の適用について.](https://doi.org/10.11238/mammalianscience.62.69) 哺乳類科学 62: 69--79
+-   Zhang et al. (2022) [Post-model-selection inference in linear regression models: An integrated review.](https://doi.org/10.1214/22-SS135) Statistics Surveys 16: 86--136
+:::
 
 ## ファイルなど {#files}
 
-<div style="text-align: left;">
+::: {style="text-align: left;"}
 今回のスライドは
 
-https://ito4303.github.io/AIC_PMSE.html
+<https://ito4303.github.io/AIC_PMSE.html>
 
 にあります。
-</div>
+:::
 
-<div style="margin-top: 1em; text-align: left;">
+::: {style="margin-top: 1em; text-align: left;"}
 例題のRコード（と、スライド作成のコード）は
 
-https://github.com/ito4303/AIC_PMSE
+<https://github.com/ito4303/AIC_PMSE>
 
 においてあります。
-</div>
-
-
-
+:::
